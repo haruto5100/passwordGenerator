@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>パスワード自動生成ツール</title>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>パスワード自動生成ツール</h1>
+        <p>情報セキュリティの知見に基づいた、暗号学的に安全なパスワードを生成します。</p>
+
+        <section class="settings-area">
+            <label for="passwordLength">パスワードの長さ:</label>
+            <input type="number" id="passwordLength" value="16" min="8" max="64" aria-label="パスワードの長さ">
+            <span>文字</span>
+
+            <div class="options-container">
+                <input type="checkbox" id="includeUpper" checked> 
+                <label for="includeUpper">英大文字 (A-Z)</label>
+                
+                <input type="checkbox" id="includeLower" checked> 
+                <label for="includeLower">英小文字 (a-z)</label>
+                
+                <input type="checkbox" id="includeNumbers" checked> 
+                <label for="includeNumbers">数字 (0-9)</label>
+                
+                <input type="checkbox" id="includeSymbols" checked> 
+                <label for="includeSymbols">記号 (!@#)</label>
+            </div>
+
+            <button id="generateButton">パスワードを生成する</button>
+        </section>
+
+        <hr>
+
+        <section id="result">
+            <h3>生成されたパスワード</h3>
+            <input type="text" id="generatedPassword" value="生成ボタンを押してください" readonly aria-live="polite">
+            <button id="copyButton">コピー</button>
+        </section>
+
+        <section id="strengthOutput">
+            <h4>パスワード強度分析</h4>
+            <p>ここにパスワードの安全性に関する評価とクラック推定時間が表示されます。</p>
+        </section>
+        
+        <section id="aiAdviceOutput"></section>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

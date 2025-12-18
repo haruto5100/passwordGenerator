@@ -1,0 +1,180 @@
+/* 基本リセットとフォント */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f9; /* やや明るいグレーの背景 */
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+/* ツール全体のコンテナ */
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px; /* PCでの表示サイズを制限 */
+    border-top: 5px solid #007bff; /* セキュリティ感を出す青のアクセント */
+}
+
+h1 {
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+/* パスワードの長さ設定 */
+#passwordLength {
+    width: 80px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+label[for="passwordLength"] {
+    font-weight: bold;
+}
+
+/* 文字種オプションのコンテナ */
+.options-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #e9ecef;
+    border-radius: 8px;
+}
+
+.options-container input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* ボタンのスタイル */
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+#generateButton {
+    background-color: #007bff; /* 主要なアクションボタンは青 */
+    color: white;
+    font-size: 16px;
+}
+
+#generateButton:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+/* 生成結果エリア */
+#result {
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
+#generatedPassword {
+    width: calc(100% - 100px); /* コピーボタンのスペースを空ける */
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 18px;
+    font-family: 'Consolas', 'Courier New', monospace; /* パスワードは見やすい等幅フォントで */
+    margin-right: 10px;
+}
+
+#copyButton {
+    background-color: #6c757d;
+    color: white;
+}
+
+#copyButton:hover {
+    background-color: #5a6268;
+}
+
+/* 強度分析の出力エリア */
+#strengthOutput {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #fff3cd; /* 初期は薄い黄色 */
+    border: 1px solid #ffeeba;
+}
+
+#strengthOutput h4 {
+    margin-top: 0;
+    color: #495057;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+/* 強度レベルのカラーリング (script.jsで動的に適用される色のための設定) */
+strong[style*="#28a745"] { color: #28a745; } /* 緑 */
+strong[style*="#ffc107"] { color: #fd7e14; } /* オレンジ */
+strong[style*="#dc3545"] { color: #dc3545; } /* 赤 */
+
+/* AIアドバイスエリアのスタイル */
+.ai-advice-box {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #e6f7ff; /* 信頼感のある水色系の背景 */
+    border: 1px solid #91d5ff;
+    color: #0056b3;
+}
+
+.ai-advice-box h4 {
+    color: #007bff;
+    margin-top: 0;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+}
+
+/* アドバイスのキーワードを青で強調 */
+.ai-advice-box p strong {
+    font-weight: 700;
+    color: #007bff; 
+}
+
+/* スマホ対応の調整 */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+        margin: 10px;
+    }
+    .options-container {
+        flex-direction: column;
+    }
+    #generatedPassword {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    #result button {
+        width: 100%;
+        margin-right: 0;
+        margin-top: 10px;
+    }
+    /* パスワード入力とコピーボタンを縦に並べる調整 */
+    #result > * {
+        display: block;
+        box-sizing: border-box;
+    }
+}
