@@ -8,47 +8,76 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>パスワード自動生成ツール</h1>
-        <p>情報セキュリティの知見に基づいた、暗号学的に安全なパスワードを生成します。</p>
+    <div class="page-shell">
+        <main class="panel">
+            <header class="topbar">
+                <div class="brand" aria-label="セキュリティツールのブランド">
+                    <span class="brand-mark" aria-hidden="true"></span>
+                    <div>
+                        <h1>パスワード自動生成</h1>
+                    </div>
+                </div>
+            </header>
 
-        <section class="settings-area">
-            <label for="passwordLength">パスワードの長さ:</label>
-            <input type="number" id="passwordLength" value="16" min="8" max="64" aria-label="パスワードの長さ">
-            <span>文字</span>
+            <section class="generator-layout">
+                <div class="settings-panel">
+                    <div class="panel-header">
+                        <h2>生成条件</h2>
+                    </div>
 
-            <div class="options-container">
-                <input type="checkbox" id="includeUpper" checked> 
-                <label for="includeUpper">英大文字 (A-Z)</label>
-                
-                <input type="checkbox" id="includeLower" checked> 
-                <label for="includeLower">英小文字 (a-z)</label>
-                
-                <input type="checkbox" id="includeNumbers" checked> 
-                <label for="includeNumbers">数字 (0-9)</label>
-                
-                <input type="checkbox" id="includeSymbols" checked> 
-                <label for="includeSymbols">記号 (!@#)</label>
-            </div>
+                    <label class="field-block" for="passwordLength">
+                        <span>長さ</span>
+                        <div class="length-control">
+                            <input type="number" id="passwordLength" value="16" min="8" max="64" aria-label="パスワードの長さ">
+                            <em>chars</em>
+                        </div>
+                    </label>
 
-            <button id="generateButton">パスワードを生成する</button>
-        </section>
+                    <div class="options-container" aria-label="文字種の選択">
+                        <label class="option-card" for="includeUpper">
+                            <input type="checkbox" id="includeUpper" checked>
+                            <span>英大文字</span>
+                        </label>
 
-        <hr>
+                        <label class="option-card" for="includeLower">
+                            <input type="checkbox" id="includeLower" checked>
+                            <span>英小文字</span>
+                        </label>
 
-        <section id="result">
-            <h3>生成されたパスワード</h3>
-            <input type="text" id="generatedPassword" value="生成ボタンを押してください" readonly aria-live="polite">
-            <button id="copyButton">コピー</button>
-        </section>
+                        <label class="option-card" for="includeNumbers">
+                            <input type="checkbox" id="includeNumbers" checked>
+                            <span>数字</span>
+                        </label>
 
-        <section id="strengthOutput">
-            <h4>パスワード強度分析</h4>
-            <p>ここにパスワードの安全性に関する評価とクラック推定時間が表示されます。</p>
-        </section>
-        
-        <section id="aiAdviceOutput"></section>
+                        <label class="option-card" for="includeSymbols">
+                            <input type="checkbox" id="includeSymbols" checked>
+                            <span>記号</span>
+                        </label>
+                    </div>
 
+                    <button id="generateButton" type="button">生成</button>
+                </div>
+
+                <section id="result" class="result-panel" aria-live="polite">
+                    <div class="panel-header result-header">
+                        <div>
+                            <h2>結果</h2>
+                        </div>
+                        <button id="copyButton" type="button" class="secondary-button">コピー</button>
+                    </div>
+
+                    <div class="password-box">
+                        <input type="text" id="generatedPassword" value="生成ボタンを押してください" readonly aria-label="生成されたパスワード">
+                    </div>
+
+                    <div id="strengthOutput" class="analysis-box">
+                        <h3>パスワード強度分析</h3>
+                        <p>ここにパスワードの安全性に関する評価とクラック推定時間が表示されます。</p>
+                    </div>
+                </section>
+            </section>
+
+        </main>
     </div>
 
     <script src="script.js"></script>

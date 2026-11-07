@@ -10,29 +10,7 @@ const CHARS = {
 const GUESSES_PER_SECOND = Math.pow(10, 12); 
 
 // ----------------------------------------------------
-//  C-1: AIアドバイスのテンプレート定義（セキュリティ知識の注入）
-// ----------------------------------------------------
-const ADVICE_TEMPLATES = {
-    // パスワードが短すぎる場合（最低12文字未満）
-    TOO_SHORT: (length) => `
-        改善点：長さの強化 - パスワードが${length}文字と短すぎます。16文字以上にしましょう。
-    `,
-    // 文字種が少ない場合
-    LOW_COMPLEXITY: (missingTypes) => `
-        改善点：複雑さの追加 - ${missingTypes.join('と')}が含まれていません。文字種の多様性はエントロピーを劇的に増加させます。最低でも英大文字、小文字、数字、記号の3種類以上を組み合わせましょう。
-    `,
-    // 連続する文字や辞書語のようなパターンがある場合（エントロピーで間接的に警告）
-    WEAK_PATTERN: `
-        改善点：パターン排除 - ユーザーが自作したパスワードの場合、誕生日やペットの名前など、推測されやすい辞書語や連続パターンの使用は避けてください。生成したパスワードであれば、そのまま利用しても問題ありません。
-    `,
-    // 非常に強力な場合
-    VERY_STRONG: `
-        評価：非常に安全 - このパスワードは高いエントロピー（情報量）を持ち、ブルートフォース攻撃に対する耐性が非常に高いと評価されました。この強度を維持しましょう。
-    `
-};
-
-// ----------------------------------------------------
-// フェーズA: セキュアなパスワードを生成するメイン関数
+// 💻 フェーズA: セキュアなパスワードを生成するメイン関数
 // ----------------------------------------------------
 function generateSecurePassword(length, options) {
     let characterSet = '';
@@ -65,7 +43,7 @@ function generateSecurePassword(length, options) {
 }
 
 // ----------------------------------------------------
-//  フェーズB: パスワード強度（エントロピー）を計算する関数群
+// 📊 フェーズB: パスワード強度（エントロピー）を計算する関数群
 // ----------------------------------------------------
 
 /**
@@ -126,51 +104,14 @@ function getCrackTimeEstimate(entropy) {
 
 
 // ----------------------------------------------------
-//  C-2: ターゲット別アドバイス生成ロジック
-// ----------------------------------------------------
-function getTargetedAdvice(password, entropy) {
-    let adviceList = [];
-    const length = password.length;
-    
-    // 1. 長さのチェック
-    if (length < 12) {
-        adviceList.push(ADVICE_TEMPLATES.TOO_SHORT(length));
-    }
-    
-    // 2. 文字種のチェック
-    let missingTypes = [];
-    if (!/[a-z]/.test(password)) missingTypes.push('英小文字');
-    if (!/[A-Z]/.test(password)) missingTypes.push('英大文字');
-    if (!/[0-9]/.test(password)) missingTypes.push('数字');
-    if (!/[^a-zA-Z0-9]/.test(password)) missingTypes.push('記号');
-
-    if (missingTypes.length > 0 && missingTypes.length < 4) {
-        adviceList.push(ADVICE_TEMPLATES.LOW_COMPLEXITY(missingTypes));
-    }
-
-    // 3. 一般的なパターンの警告（エントロピーが低い場合）
-    if (entropy < 70) {
-        adviceList.push(ADVICE_TEMPLATES.WEAK_PATTERN);
-    }
-
-    // 全てのアドバイスを結合して返す
-    return adviceList.length > 0 
-           ? adviceList.join('<br><br>') 
-           : ADVICE_TEMPLATES.VERY_STRONG;
-}
-
-
-// ----------------------------------------------------
 // メイン処理: 強度分析と出力
 // ----------------------------------------------------
 function checkPasswordStrength(password) {
     const strengthOutput = document.getElementById('strengthOutput');
-    const aiAdviceOutput = document.getElementById('aiAdviceOutput');
 
     // エラーチェック
     if (password === "文字種を一つ以上選択してください。" || password.length === 0 || password === "生成ボタンを押してください") {
         strengthOutput.innerHTML = `<h4>パスワード強度分析</h4><p style="color:#dc3545;">パスワードが生成されていません。条件を確認してください。</p>`;
-        aiAdviceOutput.innerHTML = ''; 
         return;
     }
 
@@ -179,37 +120,23 @@ function checkPasswordStrength(password) {
 
     let safetyLevel = '';
     let color = '';
-    let adviceHTML = '';
 
     // エントロピーによる強度分類
     if (entropy >= 80) {
-        safetyLevel = "非常に強力 (Very Strong)";
+        safetyLevel = "強力";
         color = "#28a745"; // 緑
-        adviceHTML = ADVICE_TEMPLATES.VERY_STRONG;
     } else if (entropy >= 60) {
-        safetyLevel = "安全 (Strong)";
+        safetyLevel = "普通";
         color = "#ffc107"; // 黄色
-        adviceHTML = getTargetedAdvice(password, entropy); 
     } else {
-        safetyLevel = "注意が必要 (Weak)";
+        safetyLevel = "脆弱";
         color = "#dc3545"; // 赤
-        adviceHTML = getTargetedAdvice(password, entropy);
     }
 
     // --- 強度分析の結果を出力 ---
     strengthOutput.innerHTML = `
-        <h4>パスワード強度分析 (セキュリティ評価)</h4>
-        <p>エントロピー: <strong>${entropy.toFixed(2)} ビット</strong></p>
-        <p>攻撃者が解読にかかる推定時間 (GPUクラスタ想定): <strong style="color: ${color};">${crackTime}</strong></p>
-        <p>総合評価: <strong style="color: ${color};">${safetyLevel}</strong></p>
-    `;
-    
-    // --- AIアドバイスを出力 ---
-    aiAdviceOutput.innerHTML = `
-        <div class="ai-advice-box">
-            <h4>セキュリティ改善アドバイス</h4>
-            <p>${adviceHTML}</p>
-        </div>
+        <h4>強度</h4>
+        <p><strong style="color: ${color};">${safetyLevel}</strong></p>
     `;
 }
 
